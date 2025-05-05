@@ -3,15 +3,16 @@
 %bcond_without	doc	# Sphinx documentation
 %bcond_without	tests	# unit tests
 %bcond_without	python2 # CPython 2.x module
-%bcond_without	python3 # CPython 3.x module
+%bcond_with	python3 # CPython 3.x module (built from python3-transaction.spec)
 
 %define		module		transaction
 
 Summary:	Generic transaction implementation for Python, mainly used by the ZODB
 Summary(pl.UTF-8):	Ogólna implementacja transakcji dla Pythona, używana głównie przez ZODB
 Name:		python-%{module}
+# keep 3.x here for python2 support
 Version:	3.1.0
-Release:	3
+Release:	4
 License:	ZPL v2.1
 Group:		Libraries/Python
 Source0:	https://files.pythonhosted.org/packages/source/t/transaction/%{module}-%{version}.tar.gz
@@ -32,8 +33,8 @@ BuildRequires:	python3-modules >= 1:3.5
 BuildRequires:	python3-setuptools
 %endif
 %if %{with doc}
-BuildRequires:	python3-repoze.sphinx.autointerface
-BuildRequires:	sphinx-pdg-3 >= 1.8
+BuildRequires:	python-repoze.sphinx.autointerface
+BuildRequires:	sphinx-pdg-2 >= 1.8
 %endif
 Requires:	python-modules >= 1:2.7
 BuildArch:	noarch
@@ -88,7 +89,7 @@ Dokumentacja API modułu Pythona %{module}.
 %if %{with doc}
 PYTHONPATH=$(pwd)/src \
 %{__make} -C docs html \
-	SPHINXBUILD=sphinx-build-3
+	SPHINXBUILD=sphinx-build-2
 %endif
 
 %install
